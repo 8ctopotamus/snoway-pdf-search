@@ -1,0 +1,172 @@
+:root {
+  --snoway-yellow: #ffcb04;
+  --snoway-yellow-dark: #ffcb07;
+  --snoway-animation-duration: 260ms;
+}
+
+@-webkit-keyframes running-progress {
+  0% { margin-left: 0px; margin-right: 100%; }
+  50% { margin-left: 25%; margin-right: 0%; }
+  100% { margin-left: 100%; margin-right: 0; }
+}
+
+@keyframes running-progress {
+  0% { margin-left: 0px; margin-right: 100%; }
+  50% { margin-left: 25%; margin-right: 0%; }
+  100% { margin-left: 100%; margin-right: 0; }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(110px);
+            transform: translateY(110px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0px);
+            transform: translateY(0px);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(110px);
+            transform: translateY(110px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0px);
+            transform: translateY(0px);
+  }
+}
+
+@-webkit-keyframes fadeOut {
+  0% {
+    opacity: 1;
+    -webkit-transform: translateY(0px);
+            transform: translateY(0px);
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform: translateY(100px);
+            transform: translateY(100px);
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    -webkit-transform: translateY(0px);
+            transform: translateY(0px);
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform: translateY(100px);
+            transform: translateY(100px);
+  }
+}
+
+@-webkit-keyframes rotateIn {
+  0% {
+    opacity: 0;
+    -webkit-transform: rotateX(90deg);
+            transform: rotateX(90deg);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: rotateX(0deg);
+            transform: rotateX(0deg);
+  }
+}
+
+.progress-line, .progress-line:before {
+  height: 6px;
+  width: 100%;
+  margin: 0;
+}
+
+.progress-line {
+  background-color: blue;
+  display: none;
+}
+
+.progress-line.loading-shown {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.progress-line:before {
+  background-color: green;
+  content: '';
+  -webkit-animation: running-progress 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation: running-progress 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+#snoway-pdf-search {
+  position: relative;
+}
+
+#snoway-pdf-search-form {
+
+}
+
+#snoway-pdf-search-form input,
+#snoway-pdf-search-form select {
+  color: #666;
+  border: 1px solid white;
+  padding: 4px 6px;
+  display: block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+#snoway-pdf-search-form button[type="submit"] {
+  margin-left: auto;
+  background: var(--snoway-yellow);
+  border: 2px solid black;
+  color: black;
+  font-size: 1.1rem;
+  font-weight: bold;
+  min-width: 100px;
+}
+
+#snoway-pdf-search-form button[type="submit"]:hover {
+  background: var(--snoway-yellow-dark);
+}
+
+.au-results-actions {
+  display: flex;
+}
+
+.au-results-actions > * {
+  margin-left: 12px;
+}
+
+.rotate-in-3d {
+  -webkit-animation: rotateIn var(--snoway-animation-duration) ease-in-out;
+          animation: rotateIn var(--snoway-animation-duration) ease-in-out;
+}
+
+.fade-in {
+  -webkit-animation: fadeIn var(--snoway-animation-duration) ease-in-out;
+          animation: fadeIn var(--snoway-animation-duration) ease-in-out;
+}
+
+.fade-out {
+  -webkit-animation: fadeOut var(--snoway-animation-duration) ease-in-out;
+          animation: fadeOut var(--snoway-animation-duration) ease-in-out;
+}
+
+@media only screen and (max-width: 767px) { /* Go to two columns */
+  #snoway-pdf-search-form button[type="submit"] {
+    width: 50%;
+    margin-right: auto;
+    margin-top: 33px;
+    border-radius: 32px;
+  }
+}
