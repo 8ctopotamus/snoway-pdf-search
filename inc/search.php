@@ -1,5 +1,13 @@
 <?php
 
+
+// include ( 'PdfToText/PdfToText.phpclass' ) ;
+// $pdf 	=  new PdfToText ( 'test.pdf' ) ;
+// echo $pdf -> Text ; 		// or you could also write : echo ( string ) $pdf ;
+
+
+
+
 $postsPerPage = $_POST['postsPerPage'] ? intval($_POST['postsPerPage']) : 12;
 $paged = $_POST['paged'] ? intval($_POST['paged']) : 0;
 $debug = $_POST['debug'] === 'true' ? boolval($_POST['debug']) : false;
