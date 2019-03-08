@@ -1,62 +1,45 @@
 <?php
 
-
-// include ( 'PdfToText/PdfToText.phpclass' ) ;
-// $pdf 	=  new PdfToText ( 'test.pdf' ) ;
-// echo $pdf -> Text ; 		// or you could also write : echo ( string ) $pdf ;
-
-
-
-
-$postsPerPage = $_POST['postsPerPage'] ? intval($_POST['postsPerPage']) : 12;
-$paged = $_POST['paged'] ? intval($_POST['paged']) : 0;
+$productType = $_POST['product_type'];
 $debug = $_POST['debug'] === 'true' ? boolval($_POST['debug']) : false;
-
-$results = [
-  'data' => [],
-  'total' => 0
-];
 
 $args = array(
   'post_type' => 'manuals',
-  'posts_per_page' => $postsPerPage,
-  'paged' => $paged,
   'orderby' => 'title',
   'order' => 'ASC',
+  'posts_per_page' => -1
 );
-//
-// if ($cat):
-//   $args['tax_query'] = array(
-//     array (
-//       'taxonomy' => 'livestock_categories',
-//       'terms' => $cat,
-//     )
-//   );
-// endif;
-//
-// if ($includeMeta):
-//   $args['meta_query']	= array(
-//     'relation'		=> 'AND',
-//   );
-//   foreach ($fieldsWeCareAbout as $field):
-//     if ($_POST[$field]):
-//       $args['meta_query'][] = [
-//         'key' => $field,
-//         'value' => $_POST[$field],
-//         'compare' => 'LIKE'
-//       ];
-//     endif;
-//   endforeach;
-// endif;
+
+$taxParams = [];
+if (!empty($_POST['product_type'])) : $taxParams['product_type'] = $_POST['product_type']; endif;
+if (!empty($_POST['product_series'])) : $taxParams['product_series'] = $_POST['product_series']; endif;
+if (!empty($_POST['manual_type'])) : $taxParams['manual_type'] = $_POST['manual_type']; endif;
+if (sizeof($taxParams) > 0):
+  $args['tax_query'] = [];
+  foreach ($taxParams as $key => $val):
+    $args['tax_query'][] = [
+      'taxonomy' => $key,   // taxonomy name
+      'field' => 'term_id', // term_id, slug or name
+      'terms' => $val, // term id, term slug or term name
+    ];
+  endforeach;
+endif;
 
 $query = new WP_Query( $args );
+
+$results = [
+  'data' => [],
+  'total' => 0,
+];
 
 if ( $query->have_posts() ):
   $results['total'] = $query->found_posts;
   while ( $query->have_posts() ) : $query->the_post();
+    $pdf = get_field('manual_file');
     $results['data'][] = [
       'title' => get_the_title(),
       'permalink' => get_the_permalink(),
+      'pdf' => $pdf
     ];
     wp_reset_postdata();
   endwhile;
@@ -64,6 +47,10 @@ endif;
 
 if ($debug):
   $results['debug'] = [
+    'Params' => [
+      $taxParams,
+      'debug' => $debug
+    ],
     'WP_Query' => [
       '$query' => $query,
       '$args' => $args,

@@ -1,6 +1,7 @@
 <?php
 
 function snoway_pdf_search_func( $atts ) {
+
   global $pluginSlug;
 
   wp_enqueue_style($pluginSlug . '-css');
@@ -11,6 +12,7 @@ function snoway_pdf_search_func( $atts ) {
   wp_enqueue_script($pluginSlug . '-js');
 
   $html = '<div id="' . $pluginSlug . '">';
+    $html .= '<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.0.943/build/pdf.min.js"></script>';
     $html .= '<noscript>The PDF Search requires JavaScript to be enabled.</noscript>';
 
     // loading
@@ -40,48 +42,17 @@ function snoway_pdf_search_func( $atts ) {
         $html .= '</select>';
       endforeach;
       $html .= '<button type="submit">Search</button>';
+      $html .= '<button id="' . $pluginSlug . '-reset" type="button">🔄 Reset</button>';
     $html .= '</form>';
 
-
-
-    // echo '<pre>';
-    // var_dump(get_object_taxonomies('manuals', 'objects'));
-    // echo '</pre>';
-
     // Results stats
-    // $html .= '<div id="results-stats-container">';
-    //   $html .= '<div id="results-stats"></div>';
-    //   $html .= '<div class="au-results-actions">';
-    //     $html .= '<button class="au-pagination-button" data-dir="-1">&#9668;</button>';
-    //     $html .= '<div id="page-count"></div>';
-    //     $html .= '<button class="au-pagination-button" data-dir="1">&#9658;</button>';
-    //     $html .= '<button id="reset-au-search-results" type="button">🔄 Reset</button>';
-    //   $html .= '</div>';
-    // $html .= '</div>';
+    $html .= '<div id="' . $pluginSlug . '-results-stats-container">';
+      $html .= '<div id="' . $pluginSlug . '-results-stats"></div>';
+    $html .= '</div>';
 
     // Results grid
-    // $html .= '<ul id="au-search-results-grid" class="livestock-grid">';
+    $html .= '<ul id="' . $pluginSlug . '-results"></ul>';
 
-    // All categories
-    // $html .= '<li>';
-    //   $html .= '<a href="#" data-catname="All Livestock" class="catSelector">';
-    //     $html .= '<img src="' . plugins_url('/img/all-category.jpg',  __DIR__ ) . '" class="livestock-thumbnail" alt="All Categories" />';
-    //     $html .= '<span class="livestock-title">All Livestock</span>';
-    //   $html .= '</a>';
-    // $html .= '</li>';
-
-    // Initial Cats
-    // foreach ( $terms as $term ):
-    //   $theID = $term->term_id;
-    //   $html .= '<li>';
-    //     $html .= '<a href="#" class="catSelector" data-catid="' . $theID . '" data-catname="' . $term->name . '">';
-    //       $html .= '<img src="' . do_shortcode(sprintf("[wp_custom_image_category term_id='%s' size='medium' onlysrc='true']", $theID)) . '" class="livestock-thumbnail" alt="' . $term->name . '" />';
-    //       $html .= '<span class="livestock-title">' . $term->name . '</span>';
-    //     $html .= '</a>';
-    //   $html .= '</li>';
-    // endforeach;
-
-    // $html .= '</ul>';
   $html .= '</div>';
 
   return $html;
