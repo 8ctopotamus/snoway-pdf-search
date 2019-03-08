@@ -2,6 +2,7 @@
   const { ajax_url, plugin_slug } = wp_data
   const loading = document.getElementById('loading')
   const searchForm = document.getElementById(`${plugin_slug}-form`)
+  const searchFormButton = document.querySelector(`${plugin_slug}-form button[type="submit"]`)
   const resultsStats = document.getElementById(`${plugin_slug}-results-stats`)
   const resultsStatsContainer = document.getElementById(`${plugin_slug}-results-stats-container`)
   const resultsList = document.getElementById(`${plugin_slug}-results`)
@@ -15,15 +16,20 @@
     debug: false // for devs
   }
 
-  const showLoading = () => {
-    loading.classList.add('loading-shown')
-  }
-
-  const hideLoading = () => {
-    loading.classList.remove('loading-shown')
+  const setLoading = bool => {
+    if (bool) {
+      loading.classList.add('loading-shown')
+    } else {
+      loading.classList.remove('loading-shown')
+    }
+    const elements = searchForm.elements;
+    for (var i = 0, len = elements.length; i < len; ++i) {
+        elements[i].disabled = bool;
+    }
   }
 
   const reset = () => {
+    resultsStats.innerText = ''
     resultsList.innerHTML = ''
   }
 
@@ -33,14 +39,18 @@
 
   const renderResults = json => {
     const { data, debug } = json
+    // console.log(data)
     resultsList.innerHTML = ''
-    console.log(data)
     if (data.length > 0) {
+      resultsStats.innerText = `${data.length} results found.`
       data.forEach(obj => renderResultHTML(obj))
+    } else {
+      resultsStats.innerText = 'No results'
     }
     if (debug) {
       console.info('Debug Info', debug)
     }
+    setLoading(false)
   }
 
   const searchManuals = async form_data => {
@@ -51,9 +61,8 @@
       })
       const json = await response.json()
       renderResults(json)
-      hideLoading()
     } catch (err) {
-      hideLoading()
+      setLoading(false)
       alert(`😵 ${err}`)
       throw new Error(err)
     }
@@ -61,7 +70,7 @@
 
   const formSubmit = e => {
     e.preventDefault()
-    showLoading()
+    setLoading(true)
     let form_data = new FormData(searchForm)
     for (key in params) {
       form_data.append(key, params[key])

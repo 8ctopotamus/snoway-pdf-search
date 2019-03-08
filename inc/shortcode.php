@@ -5,6 +5,7 @@ function snoway_pdf_search_func( $atts ) {
   global $pluginSlug;
 
   wp_enqueue_style($pluginSlug . '-css');
+  wp_enqueue_script('pdf-js');
   wp_localize_script( $pluginSlug . '-js', 'wp_data', array(
     'ajax_url' => admin_url( 'admin-ajax.php' ),
     'plugin_slug' => $pluginSlug,
@@ -12,7 +13,6 @@ function snoway_pdf_search_func( $atts ) {
   wp_enqueue_script($pluginSlug . '-js');
 
   $html = '<div id="' . $pluginSlug . '">';
-    $html .= '<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.0.943/build/pdf.min.js"></script>';
     $html .= '<noscript>The PDF Search requires JavaScript to be enabled.</noscript>';
 
     // loading
@@ -45,12 +45,8 @@ function snoway_pdf_search_func( $atts ) {
       $html .= '<button id="' . $pluginSlug . '-reset" type="button">🔄 Reset</button>';
     $html .= '</form>';
 
-    // Results stats
-    $html .= '<div id="' . $pluginSlug . '-results-stats-container">';
-      $html .= '<div id="' . $pluginSlug . '-results-stats"></div>';
-    $html .= '</div>';
-
-    // Results grid
+    // Results stats + list
+    $html .= '<div id="' . $pluginSlug . '-results-stats"></div>';
     $html .= '<ul id="' . $pluginSlug . '-results"></ul>';
 
   $html .= '</div>';

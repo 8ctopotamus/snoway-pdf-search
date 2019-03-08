@@ -88,7 +88,7 @@
 }
 
 .progress-line {
-  background-color: blue;
+  background-color: black;
   display: none;
 }
 
@@ -99,7 +99,7 @@
 }
 
 .progress-line:before {
-  background-color: green;
+  background-color: var(--snoway-yellow);
   content: '';
   -webkit-animation: running-progress 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   animation: running-progress 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
@@ -110,7 +110,7 @@
 }
 
 #snoway-pdf-search-form {
-
+  display: flex;
 }
 
 #snoway-pdf-search-form input,
@@ -125,6 +125,10 @@
   width: 100%;
 }
 
+#snoway-pdf-search-form button {
+  cursor: pointer;
+}
+
 #snoway-pdf-search-form button[type="submit"] {
   margin-left: auto;
   background: var(--snoway-yellow);
@@ -133,6 +137,10 @@
   font-size: 1.1rem;
   font-weight: bold;
   min-width: 100px;
+}
+
+#snoway-pdf-search-form button:disabled {
+  opacity: .5;
 }
 
 #snoway-pdf-search-form button[type="submit"]:hover {
