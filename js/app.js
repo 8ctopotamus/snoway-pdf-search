@@ -2,6 +2,7 @@
   const { ajax_url, plugin_slug } = wp_data
   const loading = document.getElementById('loading')
   const searchForm = document.getElementById(`${plugin_slug}-form`)
+  const searchFormElements = searchForm.elements
   const searchFormButton = document.querySelector(`${plugin_slug}-form button[type="submit"]`)
   const resultsStats = document.getElementById(`${plugin_slug}-results-stats`)
   const resultsStatsContainer = document.getElementById(`${plugin_slug}-results-stats-container`)
@@ -13,7 +14,9 @@
 
   let params = {
     action: 'snoway_pdf_search',
-    debug: false // for devs
+    // postsPerPage: 100,
+    // paged: 1,
+    debug: true // for devs
   }
 
   const setLoading = bool => {
@@ -22,9 +25,8 @@
     } else {
       loading.classList.remove('loading-shown')
     }
-    const elements = searchForm.elements;
-    for (var i = 0, len = elements.length; i < len; ++i) {
-        elements[i].disabled = bool;
+    for (var i = 0, len = searchFormElements.length; i < len; ++i) {
+        searchFormElements[i].disabled = bool
     }
   }
 
@@ -34,7 +36,12 @@
   }
 
   const renderResultHTML = obj => {
-    resultsList.innerHTML += `<p>${obj.title}<p>`
+    resultsList.innerHTML += `<li class="result-item">
+      <div><a href="${obj.pdf}" target="_blank">View PDF</a></div>
+      <div>${obj.title}</div>
+      <div>${obj.type}</div>
+      <div>${obj.description}</div>
+    <li>`
   }
 
   const renderResults = json => {

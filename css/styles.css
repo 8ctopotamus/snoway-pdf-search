@@ -147,13 +147,25 @@
   background: var(--snoway-yellow-dark);
 }
 
-.au-results-actions {
+/* .au-results-actions {
   display: flex;
 }
 
 .au-results-actions > * {
   margin-left: 12px;
+} */
+
+#snoway-pdf-search-results {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
 }
+
+.result-item {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
 
 .rotate-in-3d {
   -webkit-animation: rotateIn var(--snoway-animation-duration) ease-in-out;

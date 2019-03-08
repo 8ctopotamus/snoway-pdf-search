@@ -39,6 +39,8 @@ if ( $query->have_posts() ):
     $results['data'][] = [
       'title' => get_the_title(),
       'permalink' => get_the_permalink(),
+      'description' => get_the_content(),
+      'type' => 'Type here...',
       'pdf' => $pdf
     ];
     wp_reset_postdata();
