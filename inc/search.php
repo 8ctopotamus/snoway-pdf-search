@@ -14,12 +14,13 @@ $taxParams = [];
 if (!empty($_POST['product_type'])) : $taxParams['product_type'] = $_POST['product_type']; endif;
 if (!empty($_POST['product_series'])) : $taxParams['product_series'] = $_POST['product_series']; endif;
 if (!empty($_POST['manual_type'])) : $taxParams['manual_type'] = $_POST['manual_type']; endif;
+
 if (sizeof($taxParams) > 0):
   $args['tax_query'] = [];
   foreach ($taxParams as $key => $val):
     $args['tax_query'][] = [
       'taxonomy' => $key,   // taxonomy name
-      'field' => 'term_id', // term_id, slug or name
+      'field' => 'slug', // term_id, slug or name
       'terms' => $val, // term id, term slug or term name
     ];
   endforeach;

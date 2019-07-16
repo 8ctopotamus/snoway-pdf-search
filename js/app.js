@@ -2,7 +2,7 @@
   const { ajax_url, plugin_slug } = wp_data
   const loading = document.getElementById('loading')
   const searchForm = document.getElementById(`${plugin_slug}-form`)
-  const searchFormElements = searchForm.elements
+  const searchFormElements = Array.prototype.slice.call(searchForm.elements);
   const searchFormButton = document.querySelector(`${plugin_slug}-form button[type="submit"]`)
   const resultsStats = document.getElementById(`${plugin_slug}-results-stats`)
   const resultsStatsContainer = document.getElementById(`${plugin_slug}-results-stats-container`)
@@ -20,14 +20,17 @@
   }
 
   const setLoading = bool => {
-    if (bool) {
-      loading.classList.add('loading-shown')
-    } else {
+    bool ?
+      loading.classList.add('loading-shown') :
       loading.classList.remove('loading-shown')
-    }
+
     for (var i = 0, len = searchFormElements.length; i < len; ++i) {
-        searchFormElements[i].disabled = bool
+      searchFormElements[i].disabled = bool
     }
+  }
+
+  const clearForm = () => {
+
   }
 
   const reset = () => {
@@ -46,7 +49,7 @@
 
   const renderResults = json => {
     const { data, debug } = json
-    // console.log(data)
+    console.log(data)
     resultsList.innerHTML = ''
     if (data.length > 0) {
       resultsStats.innerText = `${data.length} results found.`
@@ -82,6 +85,8 @@
     for (key in params) {
       form_data.append(key, params[key])
     }
+    searchFormElements
+      .forEach(el => form_data.append(el.name, el.value))
     searchManuals(form_data)
   }
 
