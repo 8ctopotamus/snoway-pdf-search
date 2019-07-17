@@ -20,7 +20,7 @@ function snoway_pdf_search_func( $atts ) {
 
     // Search UI
     $html .= '<form id="' . $pluginSlug . '-form">';
-      $html .= '<input id="search-text" name="search-text" type="text" placeholder="Search ..." />';
+      $html .= '<input id="search_text" name="search_text" type="text" placeholder="Search ..." />';
       // Taxonomies fields
       $taxonomies = get_object_taxonomies('manuals', 'objects');
       foreach ($taxonomies as $tax):

@@ -1,6 +1,5 @@
 <?php
 
-$productType = $_POST['product_type'];
 $debug = $_POST['debug'] === 'true' ? boolval($_POST['debug']) : false;
 
 $args = array(
@@ -9,6 +8,10 @@ $args = array(
   'order' => 'ASC',
   'posts_per_page' => -1
 );
+
+if ( !empty($_POST['search_text']) )  {
+  $args['s'] = $_POST['search_text']; 
+}  
 
 $taxParams = [];
 if (!empty($_POST['product_type'])) : $taxParams['product_type'] = $_POST['product_type']; endif;
@@ -19,7 +22,7 @@ if (sizeof($taxParams) > 0):
   $args['tax_query'] = [];
   foreach ($taxParams as $key => $val):
     $args['tax_query'][] = [
-      'taxonomy' => $key,   // taxonomy name
+      'taxonomy' => $key,  // taxonomy name
       'field' => 'slug', // term_id, slug or name
       'terms' => $val, // term id, term slug or term name
     ];
