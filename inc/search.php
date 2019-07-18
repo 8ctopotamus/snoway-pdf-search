@@ -57,14 +57,18 @@ if ( !empty($searchText) && $searchText !== '' )  {
   include('class.pdf2text.php');
   $searchString = strtolower( $_POST['search_text'] );
   $a = new PDF2Text();  
+  $counter = 0;
   foreach ( $results['data'] as $result) {
     $a->setFilename($result['pdf']);
     $a->decodePDF();
     $output = $a->output(); 
     $output = strtolower($output); 
-    if (strpos($output, $searchString ) !== false) {
-
-    }  
+    // check if searchString is in PDF text
+    if ( strpos($output, $searchString ) !== true ) {
+      // if not, remove this result
+      array_splice($results['data'], $counter, 1);
+    }
+    $counter++;
   }
 }
 
