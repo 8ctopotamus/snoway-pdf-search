@@ -3,8 +3,6 @@
   const loading = document.getElementById('loading')
   const searchForm = document.getElementById(`${plugin_slug}-form`)
   const searchFormElements = Array.prototype.slice.call(searchForm.elements);
-  // const searchFormButton = document.querySelector(`${plugin_slug}-form button[type="submit"]`)
-  // const resultsStatsContainer = document.getElementById(`${plugin_slug}-results-stats-container`)
   const resultsStats = document.getElementById(`${plugin_slug}-results-stats`)
   const resultsList = document.getElementById(`${plugin_slug}-results`)
   const resetButton = document.getElementById(`${plugin_slug}-reset`)
@@ -42,8 +40,8 @@
   }
 
   const renderResults = json => {
-    const { data, debug } = json
-    // console.log(data)
+    const { data, options, debug } = json
+    console.log(data, options)
     resultsList.innerHTML = ''
     if (data.length > 0) {
       resultsStats.innerText = `${data.length} results found.`

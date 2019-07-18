@@ -29,24 +29,40 @@ if (sizeof($taxParams) > 0):
   endforeach;
 endif;
 
-$query = new WP_Query( $args );
-
+// prepare results object
 $results = [
   'data' => [],
+  'options' => [
+    'product_type' => [],
+    'product_series' => [],
+    'manual_type' => [],
+  ],
   'total' => 0,
 ];
 
+// WP_Query
+$query = new WP_Query( $args );
+
 if ( $query->have_posts() ):
   $results['total'] = $query->found_posts;
+  $fields = array('fields' => 'names');
   while ( $query->have_posts() ) : $query->the_post();
+    $id = get_the_id();
     $pdf = get_field('manual_file');
+    $product_type = wp_get_post_terms($id, 'product_type', $fields);
+    $product_series = wp_get_post_terms($id, 'product_series', $fields);
+    $manual_type = wp_get_post_terms($id, 'manual_type', $fields);
+    
     $results['data'][] = [
       'title' => get_the_title(),
       'permalink' => get_the_permalink(),
       'description' => get_the_content(),
-      'type' => 'Type here...',
-      'pdf' => $pdf
+      'pdf' => $pdf,
+      'product_type' => $product_type,
+      'product_series' => $product_series,
+      'manual_type' => $manual_type
     ];
+
     wp_reset_postdata();
   endwhile;
 endif;
@@ -55,7 +71,7 @@ endif;
 $searchText = $_POST['search_text'];
 if ( !empty($searchText) && $searchText !== '' )  {
   include('class.pdf2text.php');
-  $searchString = strtolower( $_POST['search_text'] );
+  $searchString = strtolower( $searchText );
   $a = new PDF2Text();  
   $counter = 0;
   foreach ( $results['data'] as $result) {
@@ -63,7 +79,7 @@ if ( !empty($searchText) && $searchText !== '' )  {
     $a->decodePDF();
     $output = $a->output(); 
     $output = strtolower($output); 
-    // check if searchString is in PDF text
+    // check if searchString is not in PDF text
     if ( strpos($output, $searchString ) !== true ) {
       // if not, remove this result
       array_splice($results['data'], $counter, 1);
@@ -72,22 +88,19 @@ if ( !empty($searchText) && $searchText !== '' )  {
   }
 }
 
-// response
+// Debug info
 if ($debug):
   $results['debug'] = [
-    'Params' => [
-      $taxParams,
-      'debug' => $debug
-    ],
+    'Params' => [$taxParams],
     'WP_Query' => [
       '$query' => $query,
       '$args' => $args,
-    ],
-    'Search PDF Text' => $_POST['search_text']
+    ]
   ];
 endif;
 
 echo json_encode($results);
+
 wp_die();
 
 ?>
