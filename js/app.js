@@ -29,11 +29,8 @@
     }
   }
 
-  const clearForm = () => {
-
-  }
-
   const reset = () => {
+    searchForm.reset()
     resultsStats.innerText = ''
     resultsList.innerHTML = ''
   }
@@ -69,6 +66,9 @@
         method: 'POST',
         body: form_data
       })
+      var res = await response.text()
+      console.log(res)
+      return
       const json = await response.json()
       renderResults(json)
     } catch (err) {

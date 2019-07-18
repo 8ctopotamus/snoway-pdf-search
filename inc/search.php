@@ -9,9 +9,9 @@ $args = array(
   'posts_per_page' => -1
 );
 
-if ( !empty($_POST['search_text']) )  {
-  $args['s'] = $_POST['search_text']; 
-}  
+if ( !empty($_POST['search_title']) )  {
+  $args['s'] = $_POST['search_title']; 
+}
 
 $taxParams = [];
 if (!empty($_POST['product_type'])) : $taxParams['product_type'] = $_POST['product_type']; endif;
@@ -51,6 +51,24 @@ if ( $query->have_posts() ):
   endwhile;
 endif;
 
+// search PDF text
+$searchText = $_POST['search_text'];
+if ( !empty($searchText) && $searchText !== '' )  {
+  include('class.pdf2text.php');
+  $searchString = strtolower( $_POST['search_text'] );
+  $a = new PDF2Text();  
+  foreach ( $results['data'] as $result) {
+    $a->setFilename($result['pdf']);
+    $a->decodePDF();
+    $output = $a->output(); 
+    $output = strtolower($output); 
+    if (strpos($output, $searchString ) !== false) {
+
+    }  
+  }
+}
+
+// response
 if ($debug):
   $results['debug'] = [
     'Params' => [
@@ -60,7 +78,8 @@ if ($debug):
     'WP_Query' => [
       '$query' => $query,
       '$args' => $args,
-    ]
+    ],
+    'Search PDF Text' => $_POST['search_text']
   ];
 endif;
 

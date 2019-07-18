@@ -109,10 +109,6 @@
   position: relative;
 }
 
-#snoway-pdf-search-form {
-  display: flex;
-}
-
 #snoway-pdf-search-form input,
 #snoway-pdf-search-form select {
   color: #666;
