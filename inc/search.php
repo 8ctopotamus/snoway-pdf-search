@@ -63,9 +63,19 @@ if ( $query->have_posts() ):
       'manual_type' => $manual_type
     ];
 
+    // start collecting new options
+    $results['options']['product_type'][] = $product_type;
+    $results['options']['product_series'][] = $product_series;
+    $results['options']['manual_type'][] = $manual_type;
+
     wp_reset_postdata();
   endwhile;
 endif;
+
+// format new options
+$results['options']['product_type'] = array_unique(array_merge(...$results['options']['product_type']));
+$results['options']['product_series'] = array_unique(array_merge(...$results['options']['product_series']));
+$results['options']['manual_type'] = array_unique(array_merge(...$results['options']['manual_type']));
 
 // search PDF text
 $searchText = $_POST['search_text'];

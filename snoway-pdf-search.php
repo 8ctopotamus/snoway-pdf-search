@@ -30,7 +30,7 @@ function snoway_pdf_search() {
 function snoway_pdf_search_scripts_styles() {
   global $pluginSlug;
   wp_register_style( $pluginSlug . '-css', plugins_url('/css/styles.css',  __FILE__ ));
-  wp_register_script( $pluginSlug . '-js', plugins_url('/js/app.js',  __FILE__ ), '', false, true );
+  wp_register_script( $pluginSlug . '-js', plugins_url('/js/search.js',  __FILE__ ), '', false, true );
 }
 add_action('wp_enqueue_scripts', 'snoway_pdf_search_scripts_styles');
 

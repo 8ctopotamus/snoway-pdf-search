@@ -7,6 +7,12 @@
   const resultsList = document.getElementById(`${plugin_slug}-results`)
   const resetButton = document.getElementById(`${plugin_slug}-reset`)
 
+  let newOptions = {
+    'product_type': [],
+    'product_series': [],
+    'manual_type': []
+  }
+
   let params = {
     action: 'snoway_pdf_search',
     debug: true // for devs
@@ -34,18 +40,21 @@
     resultsList.innerHTML += `<li class="result-item">
       <div><a href="${obj.pdf}" target="_blank">View PDF</a></div>
       <div>${obj.title}</div>
-      <div>${obj.type}</div>
+      <div>${obj.product_type.join(', ')}<br/>${obj.product_series.join(', ')}<br/>${obj.manual_type.join(', ')}</div>
       <div>${obj.description}</div>
     <li>`
   }
 
   const renderResults = json => {
-    const { data, options, debug } = json
-    console.log(data, options)
+    const { data, debug, options } = json
     resultsList.innerHTML = ''
     if (data.length > 0) {
+      // render each item
+      data.forEach(obj => {
+        renderResultHTML(obj)
+      })
       resultsStats.innerText = `${data.length} results found.`
-      data.forEach(obj => renderResultHTML(obj))
+      updateOptions(options)
     } else {
       resultsStats.innerText = 'No results'
     }
@@ -53,6 +62,10 @@
       console.info('Debug Info', debug)
     }
     setLoading(false)
+  }
+
+  const updateOptions = options => {
+    console.log('New Options:', options)
   }
 
   const searchManuals = async form_data => {
@@ -82,7 +95,16 @@
     searchManuals(form_data)
   }
 
-  searchForm.addEventListener('submit', formSubmit)
-  resetButton.addEventListener('click', reset)
+  const init = () => {
+    searchForm.addEventListener('submit', formSubmit)
+    resetButton.addEventListener('click', reset)
+    // searchFormElements.forEach(el => {
+    //   if (el.tagName === 'SELECT') {
+    //     originalOptions[el.name] = el.children
+    //   }
+    // })
+  }
+
+  init()
 
 })()
