@@ -2,6 +2,10 @@
 
 $debug = $_POST['debug'] === 'true' ? boolval($_POST['debug']) : false;
 
+function format_new_options_array($optionsObj, $optionName ) {
+  return array_values(array_unique(array_merge(...$optionsObj[$optionName])));
+} 
+
 $args = array(
   'post_type' => 'manuals',
   'orderby' => 'title',
@@ -22,9 +26,9 @@ if (sizeof($taxParams) > 0):
   $args['tax_query'] = [];
   foreach ($taxParams as $key => $val):
     $args['tax_query'][] = [
-      'taxonomy' => $key,  // taxonomy name
-      'field' => 'slug', // term_id, slug or name
-      'terms' => $val, // term id, term slug or term name
+      'taxonomy' => $key,
+      'field' => 'slug',
+      'terms' => $val,
     ];
   endforeach;
 endif;
@@ -73,9 +77,9 @@ if ( $query->have_posts() ):
 endif;
 
 // format new options
-$results['options']['product_type'] = array_unique(array_merge(...$results['options']['product_type']));
-$results['options']['product_series'] = array_unique(array_merge(...$results['options']['product_series']));
-$results['options']['manual_type'] = array_unique(array_merge(...$results['options']['manual_type']));
+$results['options']['product_type'] = format_new_options_array($results['options'], 'product_type');
+$results['options']['product_series'] = format_new_options_array($results['options'],'product_series');
+$results['options']['manual_type'] = format_new_options_array($results['options'],'manual_type');
 
 // search PDF text
 $searchText = $_POST['search_text'];

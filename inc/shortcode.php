@@ -38,7 +38,7 @@ function snoway_pdf_search_func( $atts ) {
             'hide_empty' => true
           ));
           foreach ($terms as $term):
-            $html .= '<option value="' . $term->slug . '">' . $term->name . '</option>';
+            $html .= '<option value="' . $term->slug . '" data-label="' . $term->name . '">' . $term->name . '</option>';
           endforeach;
         $html .= '</select>';
       endforeach;

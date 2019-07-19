@@ -121,6 +121,10 @@
   width: 100%;
 }
 
+#snoway-pdf-search-form option:disabled {
+  color: lightgrey;
+}
+
 #snoway-pdf-search-form button {
   cursor: pointer;
 }
@@ -143,14 +147,6 @@
   background: var(--snoway-yellow-dark);
 }
 
-/* .au-results-actions {
-  display: flex;
-}
-
-.au-results-actions > * {
-  margin-left: 12px;
-} */
-
 #snoway-pdf-search-results {
   list-style: none;
   margin-left: 0;
@@ -161,7 +157,6 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
 }
-
 
 .rotate-in-3d {
   -webkit-animation: rotateIn var(--snoway-animation-duration) ease-in-out;

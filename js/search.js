@@ -7,12 +7,6 @@
   const resultsList = document.getElementById(`${plugin_slug}-results`)
   const resetButton = document.getElementById(`${plugin_slug}-reset`)
 
-  let newOptions = {
-    'product_type': [],
-    'product_series': [],
-    'manual_type': []
-  }
-
   let params = {
     action: 'snoway_pdf_search',
     debug: true // for devs
@@ -30,7 +24,14 @@
     }
   }
 
+  const resetOptions = () => ['product_type', 'product_series', 'manual_type'].forEach(label => 
+    Array.prototype.slice
+      .call(searchForm.elements[label].children)
+      .forEach(el => el.disabled = false)
+  )
+
   const reset = () => {
+    resetOptions()
     searchForm.reset()
     resultsStats.innerText = ''
     resultsList.innerHTML = ''
@@ -64,8 +65,19 @@
     setLoading(false)
   }
 
-  const updateOptions = options => {
-    console.log('New Options:', options)
+  const updateOptions = newOptions => {
+    const currentOptions = {
+      product_type: Array.prototype.slice.call(searchForm.elements['product_type'].children),
+      product_series: Array.prototype.slice.call(searchForm.elements['product_series'].children),
+      manual_type: Array.prototype.slice.call(searchForm.elements['manual_type'].children)
+    }
+    for (key in currentOptions) {
+      currentOptions[key].forEach(el => {
+        if (!newOptions[key].includes(el.dataset.label)) {
+          el.disabled = true
+        }
+      })
+    }    
   }
 
   const searchManuals = async form_data => {
@@ -90,19 +102,13 @@
     for (key in params) {
       form_data.append(key, params[key])
     }
-    searchFormElements
-      .forEach(el => form_data.append(el.name, el.value))
+    searchFormElements.forEach(el => form_data.append(el.name, el.value))
     searchManuals(form_data)
   }
 
   const init = () => {
     searchForm.addEventListener('submit', formSubmit)
     resetButton.addEventListener('click', reset)
-    // searchFormElements.forEach(el => {
-    //   if (el.tagName === 'SELECT') {
-    //     originalOptions[el.name] = el.children
-    //   }
-    // })
   }
 
   init()
