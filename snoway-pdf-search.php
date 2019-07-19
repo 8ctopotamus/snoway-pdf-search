@@ -14,6 +14,19 @@ defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
 $pluginSlug = 'snoway-pdf-search';
 
+function checkForTaxonomies(){
+  $pt = taxonomy_exists('product_type');
+  $ps = taxonomy_exists('product_series');
+  $mt = taxonomy_exists('manual_type');
+  if ( !$pt || !$ps || !$mt ) {
+    echo "[Snoway PDF Search] Taxonomies missing!<br/>";
+    echo "<strong>product_type:</strong> " . $pt . "<br/>";
+    echo "<strong>product_type:</strong> " . $pt . "<br/>";
+    echo "<strong>product_type:</strong> " . $mt . "<br/>";
+  }
+}
+add_action('wp_loaded', 'checkForTaxonomies');
+
 /*
 ** Set up wp_ajax requests for frontend UI.
 ** NOTE: _nopriv_ makes ajaxurl work for logged out users.
