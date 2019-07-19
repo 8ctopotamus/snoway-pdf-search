@@ -41,7 +41,7 @@
     resultsList.innerHTML += `<li class="result-item">
       <div><a href="${obj.pdf}" target="_blank">View PDF</a></div>
       <div>${obj.title}</div>
-      <div>${obj.product_type.join(', ')}<br/>${obj.product_series.join(', ')}<br/>${obj.manual_type.join(', ')}</div>
+      <div>${obj.product_type.join(', ')}</div>
       <div>${obj.description}</div>
     <li>`
   }
@@ -50,6 +50,13 @@
     const { data, debug, options } = json
     resultsList.innerHTML = ''
     if (data.length > 0) {
+      // table header
+      resultsList.innerHTML += `<li class="result-item header">
+        <div>Manual</div>
+        <div>Title</div>
+        <div>Type</div>
+        <div>Description</div>
+      <li>`
       // render each item
       data.forEach(obj => {
         renderResultHTML(obj)
@@ -73,7 +80,7 @@
     }
     for (key in currentOptions) {
       currentOptions[key].forEach(el => {
-        if (!newOptions[key].includes(el.dataset.label)) {
+        if (!newOptions[key].includes(el.dataset.label) && el.dataset.label !== undefined) {
           el.disabled = true
         }
       })

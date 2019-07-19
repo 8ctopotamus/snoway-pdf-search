@@ -131,6 +131,7 @@
 
 #snoway-pdf-search-form button[type="submit"] {
   margin-left: auto;
+  margin-right: 10px;
   background: var(--snoway-yellow);
   border: 2px solid black;
   color: black;
@@ -156,6 +157,29 @@
 .result-item {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  color: #FFF;
+  background: #000;
+  border-left: 1px solid #fecb0c;
+  border-right: 1px solid #fecb0c;
+  border-bottom: 1px solid #fecb0c;
+  text-align: center;
+}
+
+.result-item a {
+  color: white !important;
+}
+
+.result-item > div {
+  font-size: .9em;
+  padding: .5em;
+  border-right: 1px solid #fecb0c;
+  border-left: 1px solid #fecb0c;
+}
+
+.result-item.header {
+  background: #fecb0c;
+  color: black;
+  font-weight: bold;
 }
 
 .rotate-in-3d {
