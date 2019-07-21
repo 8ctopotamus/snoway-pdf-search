@@ -42,7 +42,10 @@
   const resetOptions = () => ['product_type', 'product_series', 'manual_type'].forEach(label => 
     Array.prototype.slice
       .call(searchForm.elements[label].children)
-      .forEach(el => el.disabled = false)
+      .forEach(el => {
+        el.disabled = false
+        el.style.display = 'block'
+      })
   )
 
   const reset = () => {
@@ -97,6 +100,7 @@
       currentOptions[key].forEach(el => {
         if (!newOptions[key].includes(el.dataset.label) && el.dataset.label !== undefined) {
           el.disabled = true
+          el.style.display = 'none'
         }
       })
     }    
