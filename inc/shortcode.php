@@ -20,31 +20,31 @@ function snoway_pdf_search_func( $atts ) {
 
     // Search UI
     $html .= '<form id="' . $pluginSlug . '-form">';
-      $html .= '<input id="search_title" name="search_title" type="text" placeholder="Search by title ..." />';
-      $html .= '<input id="search_text" name="search_text" type="text" placeholder="Search PDF text..." />';
-      // Taxonomies fields
-      $taxonomies = get_object_taxonomies('manuals', 'objects');
-      foreach ($taxonomies as $tax):
-        $name = $tax->name;
-        $label = $tax->label;
-        // skip product_names
-        if ($name === 'product_name'):
-          continue;
-        endif;
-        $html .= '<select id="' . $name . '" name="' . $name . '">';
-          $html .= '<option value="">All ' . $label . '</option>';
-          $terms = get_terms(array(
-            'taxonomy' => $name,
-            'hide_empty' => true
-          ));
-          foreach ($terms as $term):
-            $html .= '<option value="' . $term->slug . '" data-label="' . $term->name . '">' . $term->name . '</option>';
-          endforeach;
-        $html .= '</select>';
-      endforeach;
-      $html .= '<button type="submit">Search</button>';
-      $html .= '<button id="' . $pluginSlug . '-reset" type="button">🔄 Reset</button>';
+    $html .= '<input id="search_title" name="search_title" type="text" placeholder="Search by title ..." />';
+    $html .= '<input id="search_text" name="search_text" type="text" placeholder="Search PDF text..." />';
+    // Taxonomies fields
+    $taxonomies = get_object_taxonomies('manuals', 'objects');
+    foreach ($taxonomies as $tax):
+      $name = $tax->name;
+      $label = $tax->label;
+      // skip product_names
+      if ($name === 'product_name'):
+        continue;
+      endif;
+      $html .= '<select id="' . $name . '" name="' . $name . '">';
+        $html .= '<option value="">All ' . $label . '</option>';
+        $terms = get_terms(array(
+          'taxonomy' => $name,
+          'hide_empty' => true
+        ));
+        foreach ($terms as $term):
+          $html .= '<option value="' . $term->slug . '" data-label="' . $term->name . '">' . $term->name . '</option>';
+        endforeach;
+      $html .= '</select>';
+    endforeach;
+    // $html .= '<button type="submit">Search</button>';
     $html .= '</form>';
+    $html .= '<button id="' . $pluginSlug . '-reset" type="button">🔄 Reset</button>';
 
     // Results stats + list
     $html .= '<div id="' . $pluginSlug . '-results-stats"></div>';
