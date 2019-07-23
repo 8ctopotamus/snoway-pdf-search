@@ -2,7 +2,8 @@
   const { ajax_url, plugin_slug } = wp_data
   const loading = document.getElementById('loading')
   const searchForm = document.getElementById(`${plugin_slug}-form`)
-  const searchFormElements = Array.prototype.slice.call(searchForm.elements);
+  const searchFormElements = Array.prototype.slice.call(searchForm.elements)
+  const searchPDFTextInput = document.getElementById('search_text')
   const resultsStats = document.getElementById(`${plugin_slug}-results-stats`)
   const resultsList = document.getElementById(`${plugin_slug}-results`)
   const resetButton = document.getElementById(`${plugin_slug}-reset`)
@@ -51,6 +52,7 @@
   const reset = () => {
     resetOptions()
     searchForm.reset()
+    searchPDFTextInput.style.display = ''
     resultsStats.innerText = ''
     resultsList.innerHTML = ''
   }
@@ -80,6 +82,7 @@
         renderResultHTML(obj)
       })
       resultsStats.innerText = `${data.length} results found.`
+      searchPDFTextInput.style.display = 'block'
       updateOptions(options)
     } else {
       resultsStats.innerText = 'No results'

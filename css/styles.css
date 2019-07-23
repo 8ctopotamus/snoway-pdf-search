@@ -182,19 +182,8 @@
   font-weight: bold;
 }
 
-.rotate-in-3d {
-  -webkit-animation: rotateIn var(--snoway-animation-duration) ease-in-out;
-          animation: rotateIn var(--snoway-animation-duration) ease-in-out;
-}
-
-.fade-in {
-  -webkit-animation: fadeIn var(--snoway-animation-duration) ease-in-out;
-          animation: fadeIn var(--snoway-animation-duration) ease-in-out;
-}
-
-.fade-out {
-  -webkit-animation: fadeOut var(--snoway-animation-duration) ease-in-out;
-          animation: fadeOut var(--snoway-animation-duration) ease-in-out;
+#snoway-pdf-search-form input#search_text {
+  display: none;
 }
 
 @media only screen and (max-width: 767px) { /* Go to two columns */
