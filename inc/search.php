@@ -4,7 +4,25 @@ $debug = $_POST['debug'] === 'true' ? boolval($_POST['debug']) : false;
 
 function format_new_options_array($optionsObj, $optionName ) {
   return array_values(array_unique(array_merge(...$optionsObj[$optionName])));
-} 
+}
+
+function search_title_and_meta ( $q ) {
+  if( $title = $q->get( '_meta_or_title' ) ) {
+    add_filter( 'get_meta_sql', function( $sql ) use ( $title ) {
+      global $wpdb;
+      // Only run once:
+      static $nr = 0; 
+      if( 0 != $nr++ ) return $sql;
+      // Modified WHERE
+      $sql['where'] = sprintf(
+          " AND ( %s OR %s ) ",
+          $wpdb->prepare( "{$wpdb->posts}.post_title like '%%%s%%'", $title),
+          mb_substr( $sql['where'], 5, mb_strlen( $sql['where'] ) )
+      );
+      return $sql;
+    });
+  }
+}
 
 $args = array(
   'post_type' => 'manuals',
@@ -13,8 +31,20 @@ $args = array(
   'posts_per_page' => -1
 );
 
+
+// search Title, content AND meta
 if ( !empty($_POST['search_title']) )  {
-  $args['s'] = $_POST['search_title']; 
+  add_action( 'pre_get_posts', 'search_title_and_meta');
+
+  $meta_query = array();
+  $meta_query[] = array(
+    'key' => 'manual_file_name',
+    'value' => $_POST['search_title'],
+    'compare' => 'LIKE'
+  );
+
+  $args['_meta_or_title'] = $_POST['search_title']; // not using 's' anymore
+  $args['meta_query'] = $meta_query;
 }
 
 $taxParams = [];
