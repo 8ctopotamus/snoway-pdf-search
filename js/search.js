@@ -58,8 +58,9 @@
   }
 
   const renderResultHTML = obj => {
+    const fileName = obj.pdf ? obj.pdf.split('/').reverse()[0] : ''
     resultsList.innerHTML += `<li class="result-item">
-      <div><a href="${obj.pdf}" target="_blank">${obj.pdf.split('/').reverse()[0]}</a></div>
+      <div><a href="${obj.pdf}" target="_blank">${fileName}</a></div>
       <div>${obj.title}</div>
       <div>${obj.manual_type.join(', ')}<br/> ${obj.product_type.join(', ')}</div>
       <div>${obj.description}</div>
