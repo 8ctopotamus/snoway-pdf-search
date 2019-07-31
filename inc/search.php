@@ -28,22 +28,20 @@ $args = array(
   'post_type' => 'manuals',
   'orderby' => 'title',
   'order' => 'ASC',
-  'posts_per_page' => -1
+  'posts_per_page' => -1,
 );
 
 
-// search Title, content AND meta
 if ( !empty($_POST['search_title']) )  {
-  add_action( 'pre_get_posts', 'search_title_and_meta');
+  $args['s'] = $_POST['search_title'];
+}
 
-  $meta_query = array();
+if (!empty($_POST['manual_number'])) {
+  $meta_query = [];
   $meta_query[] = array(
     'key' => 'manual_file_name',
-    'value' => $_POST['search_title'],
-    'compare' => 'LIKE'
+    'value' => $_POST['manual_number'],
   );
-
-  $args['_meta_or_title'] = $_POST['search_title']; // not using 's' anymore
   $args['meta_query'] = $meta_query;
 }
 
