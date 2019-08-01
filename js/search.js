@@ -13,6 +13,8 @@
     debug: true // for devs
   }
 
+  let lastSelectUsed = null
+
   function debounce(func, wait, immediate) {
   	var timeout
   	return function() {
@@ -100,6 +102,8 @@
       manual_type: Array.prototype.slice.call(searchForm.elements['manual_type'].children)
     }
     for (key in currentOptions) {
+      if (key === lastSelectUsed) 
+        continue // skip this one so it has all options for re-picking
       currentOptions[key].forEach(el => {
         if (!newOptions[key].includes(el.dataset.label) && el.dataset.label !== undefined) {
           el.disabled = true
@@ -124,9 +128,14 @@
     }
   }
 
-  const formSubmit = e => {
+  function formSubmit(e) {
     e.preventDefault()
     setLoading(true)
+    if (this.tagName === 'SELECT') {
+      lastSelectUsed = this.id
+    } else {
+      lastSelectUsed = null
+    }
     let form_data = new FormData(searchForm)
     for (key in params) {
       form_data.append(key, params[key])
