@@ -182,7 +182,7 @@
   font-weight: bold;
 }
 
-#snoway-pdf-search-form input#search_text {
+#search_text_wrap {
   display: none;
 }
 

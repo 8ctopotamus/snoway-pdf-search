@@ -3,16 +3,14 @@
   const loading = document.getElementById('loading')
   const searchForm = document.getElementById(`${plugin_slug}-form`)
   const searchFormElements = Array.prototype.slice.call(searchForm.elements)
-  const searchPDFTextInput = document.getElementById('search_text')
+  const searchPDFTextInput = document.getElementById('search_text_wrap')
   const resultsStats = document.getElementById(`${plugin_slug}-results-stats`)
   const resultsList = document.getElementById(`${plugin_slug}-results`)
   const resetButton = document.getElementById(`${plugin_slug}-reset`)
-
+  
   let params = {
     action: 'snoway_pdf_search',
     debug: true // for devs
-    // paged: 1,
-    // postsPerPage: 100,
   }
 
   function debounce(func, wait, immediate) {
@@ -84,6 +82,7 @@
       })
       resultsStats.innerText = `${data.length} results found.`
       searchPDFTextInput.style.display = 'block'
+      console.log(searchPDFTextInput)
       updateOptions(options)
     } else {
       resultsStats.innerText = 'No results'

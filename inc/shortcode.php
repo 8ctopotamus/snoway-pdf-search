@@ -20,9 +20,6 @@ function snoway_pdf_search_func( $atts ) {
 
     // Search UI
     $html .= '<form id="' . $pluginSlug . '-form">';
-    $html .= '<input id="search_title" name="search_title" type="text" placeholder="Search by title..." />';
-    $html .= '<input id="manual_number" name="manual_number" type="text" placeholder="Search by manual number..." />';
-    $html .= '<input id="search_text" name="search_text" type="text" placeholder="Keyword search..." />';
     // Taxonomies fields
     $taxonomies = get_object_taxonomies('manuals', 'objects');
     foreach ($taxonomies as $tax):
@@ -32,6 +29,7 @@ function snoway_pdf_search_func( $atts ) {
       if ($name === 'product_name'):
         continue;
       endif;
+      $html .= '<label>'. $label .'</label>'; 
       $html .= '<select id="' . $name . '" name="' . $name . '">';
         $html .= '<option value="">All ' . $label . '</option>';
         $terms = get_terms(array(
@@ -43,6 +41,14 @@ function snoway_pdf_search_func( $atts ) {
         endforeach;
       $html .= '</select>';
     endforeach;
+    $html .= '<label for="search_title">Search by title</label>';
+    $html .= '<input id="search_title" name="search_title" type="text" placeholder="Search by title..." />';
+    $html .= '<label for="manual_nunmber">Search by manual number</label>';
+    $html .= '<input id="manual_number" name="manual_number" type="text" placeholder="Search by manual number..." />';
+    $html .= '<div id="search_text_wrap">';
+    $html .= '<label for="search_text">Keyword search</label>';
+    $html .= '<input id="search_text" name="search_text" type="text" placeholder="Keyword search..." />';
+    $html .= '</div>';
     // $html .= '<button type="submit">Search</button>';
     $html .= '</form>';
     $html .= '<button id="' . $pluginSlug . '-reset" type="button">🔄 Reset</button>';
