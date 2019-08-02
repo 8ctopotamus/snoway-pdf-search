@@ -41,6 +41,7 @@ if (!empty($_POST['manual_number'])) {
   $meta_query[] = array(
     'key' => 'manual_file_name',
     'value' => $_POST['manual_number'],
+    'compare' => 'LIKE'
   );
   $args['meta_query'] = $meta_query;
 }
