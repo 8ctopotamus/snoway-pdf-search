@@ -10,7 +10,7 @@
   
   let params = {
     action: 'snoway_pdf_search',
-    debug: true // for devs
+    debug: false // for devs
   }
 
   let lastSelectUsed = null
@@ -149,9 +149,10 @@
     resetButton.addEventListener('click', reset)
     searchFormElements.forEach(el => {
       if (el.tagName === 'INPUT') {
-        el.addEventListener('keyup', debounce(function(e) {
-          formSubmit(e)
-        }, 500))
+        // auto-search on keyup
+        // el.addEventListener('keyup', debounce(function(e) {
+        //   formSubmit(e)
+        // }, 500))
       } else {
         el.addEventListener('change', formSubmit)
       }    

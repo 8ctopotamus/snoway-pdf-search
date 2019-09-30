@@ -31,7 +31,6 @@ $args = array(
   'posts_per_page' => -1,
 );
 
-
 if ( !empty($_POST['search_title']) )  {
   $args['s'] = $_POST['search_title'];
 }

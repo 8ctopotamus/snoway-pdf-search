@@ -13,6 +13,8 @@ function snoway_pdf_search_func( $atts ) {
   wp_enqueue_script($pluginSlug . '-js');
 
   $html = '<div id="' . $pluginSlug . '">';
+    $html .= '<h2>🔍 Search Our Manuals</h2>';
+
     $html .= '<noscript>The PDF Search requires JavaScript to be enabled.</noscript>';
 
     // loading
@@ -49,9 +51,9 @@ function snoway_pdf_search_func( $atts ) {
     $html .= '<label for="search_text">Keyword search</label>';
     $html .= '<input id="search_text" name="search_text" type="text" placeholder="Keyword search..." />';
     $html .= '</div>';
-    // $html .= '<button type="submit">Search</button>';
+    $html .= '<button type="submit">Search</button>';
+    $html .= '<button id="' . $pluginSlug . '-reset" type="button">Reset</button>';
     $html .= '</form>';
-    $html .= '<button id="' . $pluginSlug . '-reset" type="button">🔄 Reset</button>';
 
     // Results stats + list
     $html .= '<div id="' . $pluginSlug . '-results-stats"></div>';
