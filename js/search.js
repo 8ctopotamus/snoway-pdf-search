@@ -4,36 +4,56 @@
   const searchForm = document.getElementById(`${plugin_slug}-form`)
   const searchFormElements = Array.prototype.slice.call(searchForm.elements)
   const searchPDFTextInput = document.getElementById('search_text_wrap')
+  const resultsHUD = document.getElementById('results-HUD')
   const resultsStats = document.getElementById(`${plugin_slug}-results-stats`)
   const resultsList = document.getElementById(`${plugin_slug}-results`)
   const resetButton = document.getElementById(`${plugin_slug}-reset`)
-  
-  let params = {
+  const paginationButtons = document.getElementsByClassName('pagination-button')
+  const pageCount = document.getElementById('page-count')
+
+  const params = {
     action: 'snoway_pdf_search',
-    debug: false // for devs
+    posts_per_page: 25,
+    paged: 1,
+    debug: false, // for devs
   }
+
+  let totalResults = 0
 
   let lastSelectUsed = null
 
-  function debounce(func, wait, immediate) {
-  	var timeout
-  	return function() {
-  		var context = this, args = arguments
-  		var later = function() {
-  			timeout = null
-  			if (!immediate) func.apply(context, args)
-  		}
-  		var callNow = immediate && !timeout
-  		clearTimeout(timeout)
-  		timeout = setTimeout(later, wait)
-  		if (callNow) func.apply(context, args)
-  	}
+  // function debounce(func, wait, immediate) {
+  // 	var timeout
+  // 	return function() {
+  // 		var context = this, args = arguments
+  // 		var later = function() {
+  // 			timeout = null
+  // 			if (!immediate) func.apply(context, args)
+  // 		}
+  // 		var callNow = immediate && !timeout
+  // 		clearTimeout(timeout)
+  // 		timeout = setTimeout(later, wait)
+  // 		if (callNow) func.apply(context, args)
+  // 	}
+  // }
+
+  function handlePostsPerPageChange(e) {
+    params.posts_per_page = e.target.value
+    formSubmit(e)
+  }
+
+  const goToPage = e => {
+    params.paged += Number(e.target.dataset.dir)
+    if (params.paged <= 0 || params.paged >= totalResults) return
+    console.log(params.paged)
+    console.log(totalResults)
+    formSubmit(e)
   }
 
   const setLoading = bool => {
-    bool ?
-      loading.classList.add('loading-shown') :
-      loading.classList.remove('loading-shown')
+    bool
+      ? loading.classList.add('loading-shown')
+      : loading.classList.remove('loading-shown')
 
     for (var i = 0, len = searchFormElements.length; i < len; ++i) {
       searchFormElements[i].disabled = bool
@@ -52,9 +72,12 @@
   const reset = () => {
     resetOptions()
     searchForm.reset()
-    searchPDFTextInput.style.display = ''
+    searchPDFTextInput.style.display = 'none'
+    resultsHUD.style.display = 'none'
     resultsStats.innerText = ''
     resultsList.innerHTML = ''
+    params.paged = 1
+    params.posts_per_page = 25
   }
 
   const renderResultHTML = obj => {
@@ -68,7 +91,10 @@
   }
 
   const renderResults = json => {
-    const { data, debug, options } = json
+    const { data, debug, options, total } = json
+    totalResults = total
+    pageCount.innerText = `${params.paged}/${Math.floor(totalResults / params.posts_per_page)}`
+    resultsHUD.style.display = 'flex'
     resultsList.innerHTML = ''
     if (data.length > 0) {
       // table header
@@ -154,9 +180,14 @@
         //   formSubmit(e)
         // }, 500))
       } else {
-        el.addEventListener('change', formSubmit)
+        if (el.name === "posts_per_page") {
+          el.addEventListener('change', handlePostsPerPageChange)
+        } else {
+          el.addEventListener('change', formSubmit)
+        }
       }    
     })
+    Object.values(paginationButtons).forEach(el => el.addEventListener('click', goToPage))
   }
 
   init()

@@ -51,12 +51,24 @@ function snoway_pdf_search_func( $atts ) {
     $html .= '<label for="search_text">Keyword search</label>';
     $html .= '<input id="search_text" name="search_text" type="text" placeholder="Keyword search..." />';
     $html .= '</div>';
+    $html .= '<label for="posts_per_page"># of results</label>';
+    $html .= '<select name="posts_per_page">
+    <option value="25">25</option>
+    <option value="50">50</option>
+    <option value="75">75</option>
+    <option value="100">100</option>
+    </select>';
     $html .= '<button type="submit">Search</button>';
     $html .= '<button id="' . $pluginSlug . '-reset" type="button">Reset</button>';
     $html .= '</form>';
 
     // Results stats + list
-    $html .= '<div id="' . $pluginSlug . '-results-stats"></div>';
+    $html .= '<div id="results-HUD">';
+      $html .= '<div id="' . $pluginSlug . '-results-stats"></div>';
+      $html .= '<button class="pagination-button" data-dir="-1">&#9668;</button>';
+      $html .= '<div id="page-count"></div>';
+      $html .= '<button class="pagination-button" data-dir="1">&#9658;</button>';
+    $html .= '</div>';
     $html .= '<ul id="' . $pluginSlug . '-results"></ul>';
 
   $html .= '</div>';

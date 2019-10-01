@@ -1,6 +1,13 @@
 <?php
 
-$debug = $_POST['debug'] === 'true' ? boolval($_POST['debug']) : false;
+$debug = $_POST['debug'] === 'true' 
+  ? boolval($_POST['debug']) : false;
+
+$paged = isset($_POST['paged']) 
+  ? $_POST['paged'] : 1;
+
+$posts_per_page = isset($_POST['posts_per_page']) 
+  ? $_POST['posts_per_page'] : 25;
 
 function format_new_options_array($optionsObj, $optionName ) {
   return array_values(array_unique(array_merge(...$optionsObj[$optionName])));
@@ -28,7 +35,8 @@ $args = array(
   'post_type' => 'manuals',
   'orderby' => 'title',
   'order' => 'ASC',
-  'posts_per_page' => -1,
+  'paged' => $paged,
+  'posts_per_page' => $posts_per_page,
 );
 
 if ( !empty($_POST['search_title']) )  {

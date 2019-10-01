@@ -150,8 +150,19 @@
   background: var(--snoway-yellow-dark);
 }
 
+#results-HUD {
+  margin: 35px 0 25px;
+  display: flex;
+  justify-content: flex-end;
+  display: none;
+}
+
+#page-count {
+  margin: 0 10px;
+}
+
 #snoway-pdf-search-results-stats {
-  margin-top: 12px;
+  margin-right: auto;
 }
 
 #snoway-pdf-search-results {
