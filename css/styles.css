@@ -150,14 +150,13 @@
   background: var(--snoway-yellow-dark);
 }
 
-#results-HUD {
-  margin: 35px 0 25px;
-  display: flex;
-  justify-content: flex-end;
+.results-HUD {
   display: none;
+  justify-content: flex-end;
+  margin: 35px 0 25px;
 }
 
-#page-count {
+.page-count {
   margin: 0 10px;
 }
 

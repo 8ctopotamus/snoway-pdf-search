@@ -63,13 +63,21 @@ function snoway_pdf_search_func( $atts ) {
     $html .= '</form>';
 
     // Results stats + list
-    $html .= '<div id="results-HUD">';
+    $html .= '<div class="results-HUD">';
       $html .= '<div id="' . $pluginSlug . '-results-stats"></div>';
       $html .= '<button class="pagination-button" data-dir="-1">&#9668;</button>';
-      $html .= '<div id="page-count"></div>';
+      $html .= '<div class="page-count"></div>';
       $html .= '<button class="pagination-button" data-dir="1">&#9658;</button>';
     $html .= '</div>';
+
     $html .= '<ul id="' . $pluginSlug . '-results"></ul>';
+
+    // bottom pagination controls
+    $html .= '<div class="results-HUD">';
+      $html .= '<button class="pagination-button" data-dir="-1">&#9668;</button>';
+      $html .= '<div class="page-count"></div>';
+      $html .= '<button class="pagination-button" data-dir="1">&#9658;</button>';
+    $html .= '</div>';
 
   $html .= '</div>';
 

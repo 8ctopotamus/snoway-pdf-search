@@ -4,12 +4,12 @@
   const searchForm = document.getElementById(`${plugin_slug}-form`)
   const searchFormElements = Array.prototype.slice.call(searchForm.elements)
   const searchPDFTextInput = document.getElementById('search_text_wrap')
-  const resultsHUD = document.getElementById('results-HUD')
+  const resultsHUDs = Array.prototype.slice.call(document.getElementsByClassName('results-HUD'))
   const resultsStats = document.getElementById(`${plugin_slug}-results-stats`)
   const resultsList = document.getElementById(`${plugin_slug}-results`)
   const resetButton = document.getElementById(`${plugin_slug}-reset`)
   const paginationButtons = document.getElementsByClassName('pagination-button')
-  const pageCount = document.getElementById('page-count')
+  const pageCount = Array.prototype.slice.call(document.getElementsByClassName('page-count'))
 
   const params = {
     action: 'snoway_pdf_search',
@@ -45,8 +45,6 @@
   const goToPage = e => {
     params.paged += Number(e.target.dataset.dir)
     if (params.paged <= 0 || params.paged >= totalResults) return
-    console.log(params.paged)
-    console.log(totalResults)
     formSubmit(e)
   }
 
@@ -60,6 +58,10 @@
     }
   }
 
+  const setHUDs = bool => resultsHUDs.forEach(el => el.style.display = bool ? 'flex' : 'none')
+
+  const setPageCountText = (paged, totalPages) => pageCount.forEach(el => el.innerText = `${paged}/${totalPages}`)
+
   const resetOptions = () => ['product_type', 'product_series', 'manual_type'].forEach(label => 
     Array.prototype.slice
       .call(searchForm.elements[label].children)
@@ -71,9 +73,9 @@
 
   const reset = () => {
     resetOptions()
+    setHUDs(false)
     searchForm.reset()
     searchPDFTextInput.style.display = 'none'
-    resultsHUD.style.display = 'none'
     resultsStats.innerText = ''
     resultsList.innerHTML = ''
     params.paged = 1
@@ -93,8 +95,9 @@
   const renderResults = json => {
     const { data, debug, options, total } = json
     totalResults = total
-    pageCount.innerText = `${params.paged}/${Math.floor(totalResults / params.posts_per_page)}`
-    resultsHUD.style.display = 'flex'
+    setPageCountText(params.paged, Math.floor(totalResults / params.posts_per_page))
+    setHUDs(true)
+    // list of results
     resultsList.innerHTML = ''
     if (data.length > 0) {
       // table header
@@ -110,7 +113,6 @@
       })
       resultsStats.innerText = `${data.length} results found.`
       searchPDFTextInput.style.display = 'block'
-      console.log(searchPDFTextInput)
       updateOptions(options)
     } else {
       resultsStats.innerText = 'No results'
