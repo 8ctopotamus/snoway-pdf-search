@@ -24,6 +24,7 @@ function snoway_pdf_search_func( $atts ) {
     $html .= '<form id="' . $pluginSlug . '-form">';
     // Taxonomies fields
     $taxonomies = get_object_taxonomies('manuals', 'objects');
+    $labelCount = 1;
     foreach ($taxonomies as $tax):
       $name = $tax->name;
       $label = $tax->label;
@@ -31,7 +32,7 @@ function snoway_pdf_search_func( $atts ) {
       if ($name === 'product_name'):
         continue;
       endif;
-      $html .= '<label>'. $label .'</label>'; 
+      $html .= '<label>' . $labelCount .'.  '. $label .'</label>'; 
       $html .= '<select id="' . $name . '" name="' . $name . '">';
         $html .= '<option value="">All ' . $label . '</option>';
         $terms = get_terms(array(
@@ -42,6 +43,7 @@ function snoway_pdf_search_func( $atts ) {
           $html .= '<option value="' . $term->slug . '" data-label="' . $term->name . '">' . $term->name . '</option>';
         endforeach;
       $html .= '</select>';
+      $labelCount++;
     endforeach;
     $html .= '<label for="search_title">Search by title</label>';
     $html .= '<input id="search_title" name="search_title" type="text" placeholder="Search by title..." />';
@@ -51,12 +53,13 @@ function snoway_pdf_search_func( $atts ) {
     $html .= '<label for="search_text">Keyword search</label>';
     $html .= '<input id="search_text" name="search_text" type="text" placeholder="Keyword search..." />';
     $html .= '</div>';
-    $html .= '<label for="posts_per_page"># of results</label>';
+    $html .= '<label for="posts_per_page">For faster search speeds, try to limit the number of results.</label>';
     $html .= '<select name="posts_per_page">
-    <option value="25">25</option>
-    <option value="50">50</option>
-    <option value="75">75</option>
-    <option value="100">100</option>
+      <option value="-1">All</option>
+      <option value="25">25</option>
+      <option value="50">50</option>
+      <option value="75">75</option>
+      <option value="100">100</option>
     </select>';
     $html .= '<button type="submit">Search</button>';
     $html .= '<button id="' . $pluginSlug . '-reset" type="button">Reset</button>';
